@@ -1,0 +1,126 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Garante que o html e o body ocupem toda a altura da tela */
+  overflow: hidden; /* Remove scroll vertical e horizontal */
+}
+
+body {
+  display: flex;
+  flex-direction: column; /* Organiza o conteúdo em coluna */
+  background-color: #f5f5f5;
+}
+
+.header {
+  background-color: #2563eb;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.calnder-week-name{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr); /* Ajustado para 6 linhas */
+    gap: 0.5rem;
+    width: 90vw; /* Usa largura baseada na viewport */
+    height: calc(100% - 1rem); /* Ajusta a altura para respeitar o espaçamento inferior */
+    max-width: 100%; /* Garante que não ultrapasse a largura da tela */
+    max-height: 100%; /* Garante que não ultrapasse a altura da tela */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  gap: 1rem;
+  width: 100vw; /* Garante que o container ocupe toda a largura da tela */
+  height: calc(100vh - 4rem - 1rem); /* Subtrai a altura do cabeçalho e adiciona o espaçamento inferior */
+  padding-bottom: 1rem; /* Adiciona espaçamento entre o calendário e o fim da página */
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  width: 90vw;
+  max-width: 100%;
+  height: 80%;
+  background-color: white;
+  margin: 0 auto;
+}
+
+.calendar-names {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  width: 90vw;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.calendar-header {
+  grid-column: span 7; /* O cabeçalho ocupa todas as colunas do calendário */
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.cell-week-color {
+  background-color: rgb(93, 92, 92) !important
+}
+
+.day-names div {
+  font-size: 1rem; /* Tamanho da fonte dos nomes */
+}
+
+.day-cell {
+  background-color: white;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 8vw; /* Largura baseada na largura da viewport */
+  height: 8vw; /* Altura igual à largura para torná-lo quadrado */
+  max-width: 80px; /* Limite máximo para largura */
+  max-height: 80px; /* Limite máximo para altura */
+  font-size: 2vw; /* Tamanho da fonte proporcional ao botão */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button:hover {
+  background-color: #1e4bb8;
+}
+
+.day-names {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 colunas iguais */
+  width: 90vw; /* Mesmo valor da .calendar */
+  max-width: 100%;
+  text-align: center;
+  font-weight: bold;
+  background-color: #e0e0e0;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
+  margin: 0 auto; /* Centraliza horizontalmente se necessário */
+}
