@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Modal from "./Modal";
 
 interface CalendarProps {
   date: Date;
@@ -7,30 +8,30 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const year = date.getFullYear();
   const month = date.getMonth();
 
-  // Obtém o número de dias no mês
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  // Obtém o dia da semana do primeiro dia do mês (0 = domingo, 1 = segunda-feira, ...)
   const firstDayOfWeek = new Date(year, month, 1).getDay();
 
-  // Cria um array com os dias do mês
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-
-  // Adiciona células vazias para alinhar o primeiro dia do mês
   const emptyCellsBefore = Array.from({ length: firstDayOfWeek }, () => null);
 
-  // Combina as células vazias com os dias do mês
   let calendarDays = [...emptyCellsBefore, ...days];
-
-  // Adiciona células vazias no final para completar a última linha, se necessário
   const totalCells = calendarDays.length;
   const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
   const emptyCellsAfter = Array.from({ length: remainingCells }, () => null);
 
   calendarDays = [...calendarDays, ...emptyCellsAfter];
+
+  const handleDayClick = (day: number) => {
+    const clickedDate = new Date(year, month, day);
+    setSelectedDate(clickedDate);
+    setIsModalOpen(true);
+  };
 
   return (
     <>
@@ -57,7 +58,11 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
         </button>
         <div className="calendar">
           {calendarDays.map((day, index) => (
-            <div key={index} className={`day-cell ${day === null ? "empty-cell" : ""}`}>
+            <div
+              key={index}
+              className={`day-cell ${day === null ? "empty-cell" : "valid-day"}`}
+              onClick={() => day !== null && handleDayClick(day)}
+            >
               {day !== null ? day : ""}
             </div>
           ))}
@@ -66,6 +71,12 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
           &gt;
         </button>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        selectedDate={selectedDate}
+      />
     </>
   );
 };
