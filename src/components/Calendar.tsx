@@ -53,7 +53,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
       </div>
 
       <div className="calendar-container">
-        <button className="nav-button" onClick={onPrev}>
+        <button className="nav-button prev" onClick={onPrev}>
           &lt;
         </button>
         <div className="calendar">
@@ -67,7 +67,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
             </div>
           ))}
         </div>
-        <button className="nav-button" onClick={onNext}>
+        <button className="nav-button next" onClick={onNext}>
           &gt;
         </button>
       </div>

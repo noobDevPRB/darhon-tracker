@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -15,7 +15,25 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
     mechanil: 0,
   });
 
-  if (!isOpen || !selectedDate) return null;
+  // Carrega os valores do localStorage quando o modal é aberto
+  useEffect(() => {
+    if (isOpen && selectedDate) {
+      const dateKey = selectedDate.toISOString().split("T")[0]; // Formata a data como "YYYY-MM-DD"
+      const existingData = JSON.parse(localStorage.getItem("calendarData") || "{}");
+
+      if (existingData[dateKey]) {
+        setValues(existingData[dateKey]); // Carrega os valores existentes
+      } else {
+        setValues({
+          hearth: 0,
+          petrificatus: 0,
+          tentacle: 0,
+          incorruptible: 0,
+          mechanil: 0,
+        }); // Reseta os valores caso não exista
+      }
+    }
+  }, [isOpen, selectedDate]);
 
   const handleIncrement = (key: keyof typeof values) => {
     setValues((prev) => ({ ...prev, [key]: prev[key] + 1 }));
@@ -28,6 +46,24 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
   const handleInputChange = (key: keyof typeof values, value: number) => {
     setValues((prev) => ({ ...prev, [key]: Math.max(0, value) }));
   };
+
+  const handleSave = () => {
+    if (!selectedDate) return;
+
+    const dateKey = selectedDate.toISOString().split("T")[0]; // Formata a data como "YYYY-MM-DD"
+    const existingData = JSON.parse(localStorage.getItem("calendarData") || "{}");
+
+    // Atualiza ou cria o objeto no localStorage
+    const updatedData = {
+      ...existingData,
+      [dateKey]: values,
+    };
+
+    localStorage.setItem("calendarData", JSON.stringify(updatedData));
+    alert("Dados salvos com sucesso!");
+  };
+
+  if (!isOpen || !selectedDate) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -52,7 +88,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
           ))}
         </div>
 
-        <button onClick={onClose}>Fechar</button>
+        <div className="modal-buttons">
+          <button onClick={onClose}>Fechar</button>
+          <button onClick={handleSave}>Salvar</button>
+        </div>
       </div>
     </div>
   );
