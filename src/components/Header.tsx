@@ -44,7 +44,27 @@ const Header: React.FC = () => {
   };
 
   useEffect(() => {
+    // Executa calculateStats ao montar o componente
     calculateStats();
+
+    // Escuta o evento `storage` para alterações feitas em outras abas
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === "calendarData") {
+        calculateStats();
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    // Verifica alterações no localStorage na mesma aba
+    const interval = setInterval(() => {
+      calculateStats();
+    }, 1000); // Verifica a cada 1 segundo
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval); // Limpa o intervalo ao desmontar o componente
+    };
   }, []);
 
   const calculateDropChance = (item: number, hearth: number) => {
