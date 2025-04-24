@@ -8,48 +8,69 @@ html, body {
 body {
   display: flex;
   flex-direction: column; /* Organiza o conteúdo em coluna */
-  background-color: #f5f5f5;
+  background-color: #0d1117; /* Fundo principal do modo escuro */
+  color: #c9d1d9; /* Cor do texto */
 }
 
 .header {
-  display: flex;
-  flex-direction: column;
-  background-color: #2563eb;
-  color: white;
-  padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; /* Divide o header em 3 partes: esquerda, centro e direita */
+  align-items: center; /* Alinha os itens verticalmente */
+  background-color: #161b22; /* Fundo do header */
+  color: #c9d1d9; /* Cor do texto no header */
+  height: 100px; /* Define a altura fixa do header */
+  padding: 0;
 }
 
-.header-top {
+.header-left {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start; /* Alinha a imagem à esquerda */
+  align-items: center; /* Centraliza a imagem verticalmente */
+  padding-left: 5px; /* Adiciona 5px de distância da margem esquerda */
 }
 
 .header-dragon {
-  height: 40px;
-  width: 40px;
+  height: 100%; /* Faz a imagem ocupar toda a altura do header */
+  width: auto; /* Mantém a proporção da imagem */
+  object-fit: contain; /* Garante que a imagem seja ajustada sem distorção */
+  filter: brightness(0.8); /* Reduz o brilho para deixar a imagem mais escura */
 }
 
-.header-buttons {
+.header-center {
   display: flex;
-  gap: 1rem;
+  justify-content: center; /* Centraliza os itens horizontalmente */
+  align-items: center; /* Centraliza os itens verticalmente */
 }
 
 .header-stats {
   display: flex;
-  justify-content: space-around;
-  margin-top: 1rem;
+  gap: 15px; /* Aumenta o espaçamento entre os itens */
+  justify-content: center; /* Centraliza os itens horizontalmente */
+  align-items: center; /* Centraliza os itens verticalmente */
+  background-color: transparent; /* Fundo transparente para os itens */
+  color: #c9d1d9; /* Cor do texto dos itens */
 }
 
 .stat-item {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: center; /* Alinha a imagem e o texto verticalmente */
+  gap: 10px; /* Aumenta o espaçamento entre a imagem e o valor */
 }
 
 .stat-item img {
-  height: 20px;
-  width: 20px;
+  height: 40px; /* Aumenta a altura da imagem */
+  width: 40px; /* Aumenta a largura da imagem */
+  filter: brightness(0.8); /* Ajusta o brilho das imagens para combinar com o tema escuro */
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end; /* Alinha os botões à direita */
+  align-items: center; /* Centraliza os botões verticalmente */
+  gap: 1rem; /* Espaçamento entre os botões */
+  height: 100%; /* Garante que o contêiner ocupe toda a altura do header */
+  padding-right: 1rem; /* Adiciona espaçamento à direita */
+  padding-bottom: 1.9rem; /* Adiciona espaçamento inferior */
 }
 
 .calnder-week-name{
@@ -84,7 +105,9 @@ body {
   width: 90vw;
   max-width: 100%;
   height: 80%;
-  background-color: white;
+  background-color: #161b22; /* Fundo do calendário */
+  color: #c9d1d9; /* Cor do texto */
+  border: 1px solid #30363d; /* Borda do calendário */
   margin: 0 auto;
 }
 
@@ -94,6 +117,8 @@ body {
   gap: 0.5rem;
   width: 90vw;
   max-width: 100%;
+  background-color: #21262d; /* Fundo dos nomes dos dias */
+  color: #c9d1d9; /* Cor do texto */
   margin: 0 auto;
 }
 
@@ -106,7 +131,8 @@ body {
 }
 
 .cell-week-color {
-  background-color: rgb(93, 92, 92) !important
+  background-color: #161b22 !important; /* Fundo das células da semana */
+  color: #c9d1d9 !important; /* Cor do texto */
 }
 
 .day-names div {
@@ -114,8 +140,9 @@ body {
 }
 
 .day-cell {
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: #0d1117; /* Fundo das células */
+  color: #c9d1d9; /* Cor do texto */
+  border: 1px solid #30363d; /* Borda das células */
   text-align: center;
   font-size: 1.2rem;
   display: flex;
@@ -123,11 +150,15 @@ body {
   align-items: center;
 }
 
+.day-cell.valid-day:hover {
+  background-color: #21262d; /* Fundo ao passar o mouse */
+}
+
 /* Ajuste nos botões de navegação */
 .nav-button {
-  background-color: #2563eb;
-  color: white;
-  border: none;
+  background-color: #161b22; /* Fundo dos botões de navegação */
+  color: #30363d; /* Cor do texto */
+  border: 1px solid #161b22; /* Borda */
   border-radius: 50%;
   width: 8vw; /* Largura baseada na largura da viewport */
   height: 8vw; /* Altura igual à largura para torná-lo quadrado */
@@ -155,7 +186,7 @@ body {
 }
 
 .nav-button:hover {
-  background-color: #1e4bb8;
+  background-color: #2d2e2d; /* Fundo ao passar o mouse */
 }
 
 .day-names {
@@ -165,7 +196,8 @@ body {
   max-width: 100%;
   text-align: center;
   font-weight: bold;
-  background-color: #e0e0e0;
+  background-color: #21262d; /* Fundo dos nomes dos dias */
+  color: #c9d1d9; /* Cor do texto */
   padding: 0.25rem 0;
   border-bottom: 1px solid #ccc;
   box-sizing: border-box;
@@ -178,7 +210,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(13, 17, 23, 0.8); /* Fundo escuro com transparência */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -186,11 +218,13 @@ body {
 }
 
 .modal-content {
-  background: white;
+  background: #161b22; /* Fundo do modal */
+  color: #c9d1d9; /* Cor do texto */
   padding: 2rem;
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #30363d; /* Borda do modal */
 }
 
 .modal-buttons {
@@ -201,9 +235,9 @@ body {
 }
 
 .modal-buttons button {
-  background-color: #2563eb;
-  color: white;
-  border: none;
+  background-color: #238636; /* Fundo dos botões no modal */
+  color: #ffffff; /* Cor do texto */
+  border: 1px solid #2ea043; /* Borda dos botões */
   border-radius: 4px;
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -211,5 +245,53 @@ body {
 }
 
 .modal-buttons button:hover {
-  background-color: #1e4bb8;
+  background-color: #2ea043; /* Fundo ao passar o mouse */
+}
+
+/* Estilo base para os botões */
+.button {
+  background-color: #238636; /* Fundo verde */
+  color: #ffffff; /* Cor do texto */
+  border: 1px solid #2ea043; /* Borda */
+  border-radius: 8px; /* Bordas arredondadas */
+  padding: 0.5rem 1.5rem; /* Espaçamento interno */
+  font-size: 1rem; /* Tamanho da fonte */
+  font-weight: bold; /* Texto em negrito */
+  cursor: pointer; /* Cursor de ponteiro */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transições suaves */
+  display: flex; /* Flex para centralizar ícones e texto */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 0.5rem; /* Espaçamento entre ícone e texto */
+}
+
+/* Efeito ao passar o mouse */
+.button:hover {
+  background-color: #2ea043; /* Fundo mais claro */
+  transform: scale(1.05); /* Leve aumento no tamanho */
+}
+
+/* Botão de Importar */
+.import-button::before {
+  content: "📂"; /* Ícone de pasta */
+  font-size: 1.2rem; /* Tamanho do ícone */
+}
+
+/* Botão de Exportar */
+.export-button::before {
+  content: "⬇️"; /* Ícone de download */
+  font-size: 1.2rem; /* Tamanho do ícone */
+}
+
+/* Remove as setas dos inputs do tipo number */
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  appearance: none; /* Padrão */
+}
+
+/* Opcional: Adiciona um estilo para inputs de número */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Remove as setas no Chrome */
+  margin: 0; /* Remove margens */
 }

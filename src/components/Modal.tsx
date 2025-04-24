@@ -13,16 +13,16 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
     tentacle: 0,
     incorruptible: 0,
     mechanil: 0,
+    elemental: 0,
   });
 
-  // Carrega os valores do localStorage quando o modal é aberto
   useEffect(() => {
     if (isOpen && selectedDate) {
-      const dateKey = selectedDate.toISOString().split("T")[0]; // Formata a data como "YYYY-MM-DD"
+      const dateKey = selectedDate.toISOString().split("T")[0];
       const existingData = JSON.parse(localStorage.getItem("calendarData") || "{}");
 
       if (existingData[dateKey]) {
-        setValues(existingData[dateKey]); // Carrega os valores existentes
+        setValues(existingData[dateKey]);
       } else {
         setValues({
           hearth: 0,
@@ -30,7 +30,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
           tentacle: 0,
           incorruptible: 0,
           mechanil: 0,
-        }); // Reseta os valores caso não exista
+          elemental: 0,
+        });
       }
     }
   }, [isOpen, selectedDate]);
@@ -50,10 +51,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
   const handleSave = () => {
     if (!selectedDate) return;
 
-    const dateKey = selectedDate.toISOString().split("T")[0]; // Formata a data como "YYYY-MM-DD"
+    const dateKey = selectedDate.toISOString().split("T")[0];
     const existingData = JSON.parse(localStorage.getItem("calendarData") || "{}");
 
-    // Atualiza ou cria o objeto no localStorage
     const updatedData = {
       ...existingData,
       [dateKey]: values,
@@ -67,28 +67,105 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>Detalhes do Dia</h2>
-        <p>Data selecionada: {selectedDate.toLocaleDateString("pt-BR")}</p>
+      <div
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          width: "650px", // Aumenta a largura do modal
+          padding: "20px", // Adiciona espaçamento interno
+          borderRadius: "8px", // Bordas arredondadas
+          display: "flex", // Adiciona flexbox
+          flexDirection: "column", // Organiza o conteúdo em coluna
+          alignItems: "center", // Centraliza horizontalmente
+          justifyContent: "space-between", // Distribui os elementos verticalmente
+          minHeight: "450px", // Define uma altura mínima para o modal
+        }}
+      >
+        <h2 style={{ marginBottom: "10px" }}>Detalhes do Dia</h2>
+        <p style={{ marginBottom: "20px" }}>Data selecionada: {selectedDate.toLocaleDateString("pt-BR")}</p>
 
-        <div className="input-group">
+        <div
+          className="input-group"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)", // Define duas colunas
+            gap: "20px", // Espaçamento entre os itens
+            justifyContent: "center", // Centraliza os itens horizontalmente
+            alignItems: "center", // Centraliza os itens verticalmente
+            marginBottom: "20px", // Adiciona espaçamento entre os itens e os botões
+          }}
+        >
           {Object.keys(values).map((key) => (
-            <div key={key} className="input-row">
-              <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
-              <button onClick={() => handleDecrement(key as keyof typeof values)}>-</button>
-              <button onClick={() => handleIncrement(key as keyof typeof values)}>+</button>
+            <div
+              key={key}
+              className="input-row"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px", // Espaçamento entre os elementos
+              }}
+            >
+              <img
+                src={`/images/${key}.png`} // Substitua pelo caminho correto das imagens
+                alt={key}
+                style={{ width: "40px", height: "40px" }}
+              />
+              <button
+                onClick={() => handleDecrement(key as keyof typeof values)}
+                style={{
+                  backgroundColor: "rgba(255, 121, 97, 0.5)", // Vermelho de pouco contraste
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px", // Bordas levemente arredondadas
+                  height: "50px", // Aumenta a altura do botão
+                  width: "50px", // Aumenta a largura do botão
+                  cursor: "pointer",
+                }}
+              >
+                -
+              </button>
+              <button
+                onClick={() => handleIncrement(key as keyof typeof values)}
+                style={{
+                  backgroundColor: "rgba(70, 130, 180, 0.5)", // Azul de pouco contraste
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px", // Bordas levemente arredondadas
+                  height: "50px", // Aumenta a altura do botão
+                  width: "50px", // Aumenta a largura do botão
+                  cursor: "pointer",
+                }}
+              >
+                +
+              </button>
               <input
                 type="number"
                 value={values[key as keyof typeof values]}
                 onChange={(e) =>
                   handleInputChange(key as keyof typeof values, parseInt(e.target.value) || 0)
                 }
+                style={{
+                  width: "70px", // Ajusta a largura do input para manter a proporção
+                  textAlign: "center",
+                  padding: "5px", // Adiciona espaçamento interno ao input
+                  height: "38px", // Define a altura do input para combinar com os botões
+                  borderRadius: "8px", // Arredonda as bordas do input
+                  border: "1px solid #ccc", // Adiciona uma borda leve
+                }}
               />
             </div>
           ))}
         </div>
 
-        <div className="modal-buttons">
+        <div
+          className="modal-buttons"
+          style={{
+            display: "flex",
+            justifyContent: "center", // Centraliza os botões
+            gap: "10px", // Adiciona espaçamento entre os botões
+            marginTop: "20px", // Adiciona margem superior
+          }}
+        >
           <button onClick={onClose}>Fechar</button>
           <button onClick={handleSave}>Salvar</button>
         </div>
