@@ -60,7 +60,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
     };
 
     localStorage.setItem("calendarData", JSON.stringify(updatedData));
-    alert("Dados salvos com sucesso!");
+    onClose(); // Fecha o modal após salvar
   };
 
   if (!isOpen || !selectedDate) return null;
@@ -81,8 +81,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
           minHeight: "450px", // Define uma altura mínima para o modal
         }}
       >
-        <h2 style={{ marginBottom: "10px" }}>Detalhes do Dia</h2>
-        <p style={{ marginBottom: "20px" }}>Data selecionada: {selectedDate.toLocaleDateString("pt-BR")}</p>
+        <h2 style={{ marginBottom: "10px" }}>Detalhes do Hunt</h2>
+        <p style={{ marginBottom: "20px" }}>{selectedDate.toLocaleDateString("pt-BR")}</p>
 
         <div
           className="input-group"
@@ -109,6 +109,21 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
                 src={`/images/${key}.png`} // Substitua pelo caminho correto das imagens
                 alt={key}
                 style={{ width: "40px", height: "40px" }}
+              />
+              <input
+                type="number"
+                value={values[key as keyof typeof values]}
+                onChange={(e) =>
+                  handleInputChange(key as keyof typeof values, parseInt(e.target.value) || 0)
+                }
+                style={{
+                  width: "70px", // Ajusta a largura do input para manter a proporção
+                  textAlign: "center",
+                  padding: "5px", // Adiciona espaçamento interno ao input
+                  height: "38px", // Define a altura do input para combinar com os botões
+                  borderRadius: "8px", // Arredonda as bordas do input
+                  border: "1px solid #ccc", // Adiciona uma borda leve
+                }}
               />
               <button
                 onClick={() => handleDecrement(key as keyof typeof values)}
@@ -138,21 +153,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
               >
                 +
               </button>
-              <input
-                type="number"
-                value={values[key as keyof typeof values]}
-                onChange={(e) =>
-                  handleInputChange(key as keyof typeof values, parseInt(e.target.value) || 0)
-                }
-                style={{
-                  width: "70px", // Ajusta a largura do input para manter a proporção
-                  textAlign: "center",
-                  padding: "5px", // Adiciona espaçamento interno ao input
-                  height: "38px", // Define a altura do input para combinar com os botões
-                  borderRadius: "8px", // Arredonda as bordas do input
-                  border: "1px solid #ccc", // Adiciona uma borda leve
-                }}
-              />
             </div>
           ))}
         </div>
@@ -166,7 +166,19 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
             marginTop: "20px", // Adiciona margem superior
           }}
         >
-          <button onClick={onClose}>Fechar</button>
+          <button
+            onClick={onClose}
+            style={{
+              backgroundColor: "rgba(255, 99, 71, 0.5)", // Vermelho pastel
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              padding: "10px 20px",
+              cursor: "pointer",
+            }}
+          >
+            Fechar
+          </button>
           <button onClick={handleSave}>Salvar</button>
         </div>
       </div>

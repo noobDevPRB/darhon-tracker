@@ -62,6 +62,11 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
               key={index}
               className={`day-cell ${day === null ? "empty-cell" : "valid-day"}`}
               onClick={() => day !== null && handleDayClick(day)}
+              style={{
+                fontSize: "3rem", // Aumenta o tamanho da fonte
+                textAlign: "center", // Centraliza o texto
+                lineHeight: "1", // Ajusta o espaçamento interno
+              }}
             >
               {day !== null ? day : ""}
             </div>

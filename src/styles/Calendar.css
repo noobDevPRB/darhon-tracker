@@ -1,0 +1,5 @@
+.day-cell {
+  font-size: 1.5rem; /* Aumenta o tamanho da fonte */
+  text-align: center; /* Centraliza o texto */
+  line-height: 1; /* Mantém o texto ajustado dentro da div */
+}
