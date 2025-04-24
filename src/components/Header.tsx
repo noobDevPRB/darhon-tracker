@@ -93,12 +93,10 @@ const Header: React.FC = () => {
       try {
         const importedData = JSON.parse(e.target?.result as string);
         localStorage.setItem("calendarData", JSON.stringify(importedData));
-        alert("Dados importados com sucesso!");
-
-        // Recalcula os stats após salvar os dados no localStorage
-        calculateStats();
+        //alert("Dados importados com sucesso!");
+        window.location.reload(); // Recarrega a página após a importação
       } catch (error) {
-        alert("Erro ao importar o arquivo. Certifique-se de que é um JSON válido.");
+        //alert("Erro ao importar os dados. Verifique o arquivo e tente novamente.");
       }
     };
     reader.readAsText(file);
