@@ -16,6 +16,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
     elemental: 0,
   });
 
+  const isReadOnly = selectedDate
+    ? selectedDate < new Date(new Date().toISOString().split("T")[0])
+    : false;
+
   useEffect(() => {
     if (isOpen && selectedDate) {
       const dateKey = selectedDate.toISOString().split("T")[0];
@@ -35,18 +39,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
       }
     }
   }, [isOpen, selectedDate]);
-
-  const handleIncrement = (key: keyof typeof values) => {
-    setValues((prev) => ({ ...prev, [key]: prev[key] + 1 }));
-  };
-
-  const handleDecrement = (key: keyof typeof values) => {
-    setValues((prev) => ({ ...prev, [key]: Math.max(0, prev[key] - 1) }));
-  };
-
-  const handleInputChange = (key: keyof typeof values, value: number) => {
-    setValues((prev) => ({ ...prev, [key]: Math.max(0, value) }));
-  };
 
   const handleSave = () => {
     if (!selectedDate) return;
@@ -71,14 +63,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
         className="modal-content"
         onClick={(e) => e.stopPropagation()}
         style={{
-          width: "650px", // Aumenta a largura do modal
-          padding: "20px", // Adiciona espaçamento interno
-          borderRadius: "8px", // Bordas arredondadas
-          display: "flex", // Adiciona flexbox
-          flexDirection: "column", // Organiza o conteúdo em coluna
-          alignItems: "center", // Centraliza horizontalmente
-          justifyContent: "space-between", // Distribui os elementos verticalmente
-          minHeight: "450px", // Define uma altura mínima para o modal
+          width: "650px",
+          padding: "20px",
+          borderRadius: "8px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "space-between",
+          minHeight: "450px",
         }}
       >
         <h2 style={{ marginBottom: "10px" }}>Detalhes do Hunt</h2>
@@ -88,11 +80,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
           className="input-group"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)", // Define duas colunas
-            gap: "20px", // Espaçamento entre os itens
-            justifyContent: "center", // Centraliza os itens horizontalmente
-            alignItems: "center", // Centraliza os itens verticalmente
-            marginBottom: "20px", // Adiciona espaçamento entre os itens e os botões
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: "20px",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: "20px",
           }}
         >
           {Object.keys(values).map((key) => (
@@ -102,57 +94,78 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "10px", // Espaçamento entre os elementos
+                gap: "10px",
               }}
             >
               <img
-                src={`/images/${key}.png`} // Substitua pelo caminho correto das imagens
+                src={`/images/${key}.png`}
                 alt={key}
                 style={{ width: "40px", height: "40px" }}
               />
-              <input
-                type="number"
-                value={values[key as keyof typeof values]}
-                onChange={(e) =>
-                  handleInputChange(key as keyof typeof values, parseInt(e.target.value) || 0)
-                }
-                style={{
-                  width: "70px", // Ajusta a largura do input para manter a proporção
-                  textAlign: "center",
-                  padding: "5px", // Adiciona espaçamento interno ao input
-                  height: "38px", // Define a altura do input para combinar com os botões
-                  borderRadius: "8px", // Arredonda as bordas do input
-                  border: "1px solid #ccc", // Adiciona uma borda leve
-                }}
-              />
-              <button
-                onClick={() => handleDecrement(key as keyof typeof values)}
-                style={{
-                  backgroundColor: "rgba(255, 121, 97, 0.5)", // Vermelho de pouco contraste
-                  color: "white",
-                  border: "none",
-                  borderRadius: "6px", // Bordas levemente arredondadas
-                  height: "50px", // Aumenta a altura do botão
-                  width: "50px", // Aumenta a largura do botão
-                  cursor: "pointer",
-                }}
-              >
-                -
-              </button>
-              <button
-                onClick={() => handleIncrement(key as keyof typeof values)}
-                style={{
-                  backgroundColor: "rgba(70, 130, 180, 0.5)", // Azul de pouco contraste
-                  color: "white",
-                  border: "none",
-                  borderRadius: "6px", // Bordas levemente arredondadas
-                  height: "50px", // Aumenta a altura do botão
-                  width: "50px", // Aumenta a largura do botão
-                  cursor: "pointer",
-                }}
-              >
-                +
-              </button>
+              {isReadOnly ? (
+                <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                  {values[key as keyof typeof values]}
+                </span>
+              ) : (
+                <>
+                  <input
+                    type="number"
+                    value={values[key as keyof typeof values]}
+                    onChange={(e) =>
+                      setValues((prev) => ({
+                        ...prev,
+                        [key as keyof typeof values]: Math.max(0, parseInt(e.target.value) || 0),
+                      }))
+                    }
+                    style={{
+                      width: "70px",
+                      textAlign: "center",
+                      padding: "5px",
+                      height: "38px",
+                      borderRadius: "8px",
+                      border: "1px solid #ccc",
+                    }}
+                  />
+                  <button
+                    onClick={() =>
+                      setValues((prev) => ({
+                        ...prev,
+                        [key as keyof typeof values]: Math.max(0, prev[key as keyof typeof values] - 1),
+                      }))
+                    }
+                    style={{
+                      backgroundColor: "rgba(255, 121, 97, 0.5)",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "6px",
+                      height: "50px",
+                      width: "50px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    -
+                  </button>
+                  <button
+                    onClick={() =>
+                      setValues((prev) => ({
+                        ...prev,
+                        [key as keyof typeof values]: prev[key as keyof typeof values] + 1,
+                      }))
+                    }
+                    style={{
+                      backgroundColor: "rgba(70, 130, 180, 0.5)",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "6px",
+                      height: "50px",
+                      width: "50px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    +
+                  </button>
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -161,15 +174,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
           className="modal-buttons"
           style={{
             display: "flex",
-            justifyContent: "center", // Centraliza os botões
-            gap: "10px", // Adiciona espaçamento entre os botões
-            marginTop: "20px", // Adiciona margem superior
+            justifyContent: "center",
+            gap: "10px",
+            marginTop: "20px",
           }}
         >
           <button
             onClick={onClose}
             style={{
-              backgroundColor: "rgba(255, 99, 71, 0.5)", // Vermelho pastel
+              backgroundColor: "rgba(255, 99, 71, 0.5)",
               color: "white",
               border: "none",
               borderRadius: "6px",
@@ -179,7 +192,21 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
           >
             Fechar
           </button>
-          <button onClick={handleSave}>Salvar</button>
+          {!isReadOnly && (
+            <button
+              onClick={handleSave}
+              style={{
+                backgroundColor: "rgba(70, 130, 180, 0.5)",
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                padding: "10px 20px",
+                cursor: "pointer",
+              }}
+            >
+              Salvar
+            </button>
+          )}
         </div>
       </div>
     </div>

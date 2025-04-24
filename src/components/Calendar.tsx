@@ -33,10 +33,16 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
     setCalendarData(data);
   }, [isModalOpen]);
 
-  const handleDayClick = (day: number) => {
-    const clickedDate = new Date(year, month, day);
-    setSelectedDate(clickedDate);
-    setIsModalOpen(true);
+  const handleDayClick = (date: Date) => {
+    const today = new Date(new Date().toISOString().split("T")[0]); // Data atual sem horário
+    const dateKey = date.toISOString().split("T")[0];
+    const existingData = JSON.parse(localStorage.getItem("calendarData") || "{}");
+
+    // Permitir abrir o modal apenas se for o dia atual ou se houver dados contabilizados
+    if (dateKey === today.toISOString().split("T")[0] || existingData[dateKey]) {
+      setSelectedDate(date); // Define a data selecionada
+      setIsModalOpen(true); // Abre o modal
+    }
   };
 
   return (
@@ -75,7 +81,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
               <div
                 key={index}
                 className={`day-cell valid-day`}
-                onClick={() => handleDayClick(day)}
+                onClick={() => handleDayClick(new Date(year, month, day))}
                 style={{
                   position: "relative", // Permite posicionar elementos dentro da célula
                   textAlign: "center", // Centraliza o conteúdo
