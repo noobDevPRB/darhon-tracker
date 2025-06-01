@@ -113,7 +113,7 @@ const Header: React.FC = () => {
       <div className="header-center">
         <div className="header-stats">
           <div className="stat-item">
-            <img src="/images/hunts.png" alt="Hunts" />
+            <img src={`${import.meta.env.BASE_URL}images/hunts.png`} alt="Hunts" />
             {stats.hunts}
           </div>
           <div className="stat-item">
