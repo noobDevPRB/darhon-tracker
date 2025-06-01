@@ -48,20 +48,25 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
   return (
     <>
       <div className="calendar-header">
-        {date.toLocaleDateString("pt-BR", {
-          month: "long",
-          year: "numeric",
-        })}
+        {(() => {
+          const [month, year] = date
+            .toLocaleDateString("en-US", { month: "long", year: "numeric" })
+            .split(" ");
+          const monthFormatted = month.charAt(0).toUpperCase() + month.slice(1).toLowerCase();
+          return `${monthFormatted} ${year}`;
+        })()}
       </div>
 
       <div className="calendar-names">
-        <div className="day-cell cell-week-color">Dom</div>
-        <div className="day-cell cell-week-color">Seg</div>
-        <div className="day-cell cell-week-color">Ter</div>
-        <div className="day-cell cell-week-color">Qua</div>
-        <div className="day-cell cell-week-color">Qui</div>
-        <div className="day-cell cell-week-color">Sex</div>
-        <div className="day-cell cell-week-color">Sáb</div>
+        <div className="calendar-names">
+          <div className="day-cell cell-week-color">Sun</div>
+          <div className="day-cell cell-week-color">Mon</div>
+          <div className="day-cell cell-week-color">Tue</div>
+          <div className="day-cell cell-week-color">Wed</div>
+          <div className="day-cell cell-week-color">Thu</div>
+          <div className="day-cell cell-week-color">Fri</div>
+          <div className="day-cell cell-week-color">Sat</div>
+        </div>
       </div>
 
       <div className="calendar-container">

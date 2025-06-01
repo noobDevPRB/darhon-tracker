@@ -146,7 +146,7 @@ const Header: React.FC = () => {
       {/* Botões no lado direito */}
       <div className="header-right">
         <label htmlFor="import-json" className="button import-button">
-          Importar
+          Import
         </label>
         <input
           id="import-json"
@@ -156,7 +156,7 @@ const Header: React.FC = () => {
           style={{ display: "none" }}
         />
         <button className="button export-button" onClick={handleExport}>
-          Exportar
+          Export
         </button>
       </div>
     </header>

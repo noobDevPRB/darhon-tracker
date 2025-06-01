@@ -126,8 +126,8 @@ body {
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
-  margin-top: 1rem; /* Adiciona espaçamento no topo */
-  margin-bottom: 1rem; /* Adiciona espaçamento abaixo */
+  margin-top: 0.5rem; /* Adiciona espaçamento no topo */
+  margin-bottom: 0.5rem; /* Adiciona espaçamento abaixo */
 }
 
 .cell-week-color {
