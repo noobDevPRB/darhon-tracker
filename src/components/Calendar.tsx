@@ -91,7 +91,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
                 {/* Ícone de hunts atrás do número */}
                 {Object.keys(dayData).length > 0 && (
                   <img
-                    src="/images/hunts.png" // Caminho do ícone de hunts
+                    src={`${import.meta.env.BASE_URL}images/hunts.png`} // Caminho do ícone de hunts
                     alt="Hunts"
                     style={{
                       position: "absolute",
@@ -133,7 +133,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
                     .map((key) => (
                       <img
                         key={key}
-                        src={`/images/${key}.png`} // Caminho do ícone do item
+                        src={`${import.meta.env.BASE_URL}images/${key}.png`} // Caminho do ícone do item
                         alt={key}
                         style={{
                           width: calendarDays.length === 42 ? "15px" : "20px", // Ajusta o tamanho dos ícones para 15px se houver 6 colunas

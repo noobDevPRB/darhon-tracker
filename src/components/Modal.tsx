@@ -98,7 +98,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, selectedDate }) => {
               }}
             >
               <img
-                src={`/images/${key}.png`}
+                src={`${import.meta.env.BASE_URL}images/${key}.png`}
                 alt={key}
                 style={{ width: "40px", height: "40px" }}
               />

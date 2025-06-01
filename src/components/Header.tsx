@@ -106,7 +106,7 @@ const Header: React.FC = () => {
     <header className="header">
       {/* Imagem no lado esquerdo */}
       <div className="header-left">
-        <img src="/images/darhon-head.png" alt="Darhon Head" className="header-dragon" />
+        <img src={`${import.meta.env.BASE_URL}images/darhon-head.png`} alt="Darhon Head" className="header-dragon" />
       </div>
 
       {/* Itens no meio */}
@@ -117,27 +117,27 @@ const Header: React.FC = () => {
             {stats.hunts}
           </div>
           <div className="stat-item">
-            <img src="/images/hearth.png" alt="Hearth" />
+            <img src={`${import.meta.env.BASE_URL}images/hearth.png`} alt="Hearth" />
             {stats.hearth}
           </div>
           <div className="stat-item">
-            <img src="/images/elemental.png" alt="Elemental" />
+            <img src={`${import.meta.env.BASE_URL}images/elemental.png`} alt="Elemental" />
             {stats.elemental} / {calculateDropChance(stats.elemental, stats.hearth)}%
           </div>
           <div className="stat-item">
-            <img src="/images/petrificatus.png" alt="Petrificatus" />
+            <img src={`${import.meta.env.BASE_URL}images/petrificatus.png`} alt="Petrificatus" />
             {stats.petrificatus} / {calculateDropChance(stats.petrificatus, stats.hearth)}%
           </div>
           <div className="stat-item">
-            <img src="/images/tentacle.png" alt="Tentacle" />
+            <img src={`${import.meta.env.BASE_URL}images/tentacle.png`} alt="Tentacle" />
             {stats.tentacle} / {calculateDropChance(stats.tentacle, stats.hearth)}%
           </div>
           <div className="stat-item">
-            <img src="/images/incorruptible.png" alt="Incorruptible" />
+            <img src={`${import.meta.env.BASE_URL}images/incorruptible.png`} alt="Incorruptible" />
             {stats.incorruptible} / {calculateDropChance(stats.incorruptible, stats.hearth)}%
           </div>
           <div className="stat-item">
-            <img src="/images/mechanil.png" alt="Mechanil" />
+            <img src={`${import.meta.env.BASE_URL}images/mechanil.png`} alt="Mechanil" />
             {stats.mechanil} / {calculateDropChance(stats.mechanil, stats.hearth)}%
           </div>
         </div>
