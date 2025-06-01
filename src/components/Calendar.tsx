@@ -125,7 +125,9 @@ const Calendar: React.FC<CalendarProps> = ({ date, onPrev, onNext }) => {
                     left: "10px", // Espaçamento do lado esquerdo da célula
                     display: "flex",
                     flexDirection: "column", // Organiza os ícones verticalmente
+                    flexWrap: "wrap",
                     gap: "5px", // Espaçamento entre os ícones
+                    height: "90px", // Altura fixa para a coluna de ícones
                   }}
                 >
                   {Object.keys(dayData)
