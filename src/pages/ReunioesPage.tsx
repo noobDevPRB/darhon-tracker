@@ -158,11 +158,10 @@ const ReunioesPage: React.FC = () => {
           </div>
         ) : (
           <div style={{
-            display: 'flex',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: 16,
-            overflowX: 'auto',
-            paddingBottom: 12,
-          }}>
+          }} className="meetings-grid">
             {meetings.map(meeting => {
               const { total, dev, tested, pct } = getProgress(meeting);
               return (
@@ -176,8 +175,6 @@ const ReunioesPage: React.FC = () => {
                     padding: 24,
                     cursor: 'pointer',
                     transition: 'border-color .2s, transform .2s',
-                    minWidth: 300,
-                    flexShrink: 0,
                   }}
                   onMouseEnter={e => {
                     e.currentTarget.style.borderColor = '#39d353';

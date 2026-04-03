@@ -1,8 +1,8 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100vh; /* Garante que o html e o body ocupem toda a altura da tela */
-  overflow: hidden; /* Remove scroll vertical e horizontal */
+  height: 100%;
+  overflow: auto;
 }
 
 body {
@@ -294,4 +294,21 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none; /* Remove as setas no Chrome */
   margin: 0; /* Remove margens */
+}
+
+/* Meetings grid responsive */
+.meetings-grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+@media (max-width: 900px) {
+  .meetings-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .meetings-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
