@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getMeeting, updateMeeting, deleteSection, deleteItem, finalizarRevisao, Meeting } from '../../services/api';
 import SectionBlock from './SectionBlock';
 
-const DYN_ICONS = ['📝','🎬','🏄','⚖️','🗳️','🔐','👤','🎯','📱','💳','🐛','✨','📌','🔧','🌊','📋'];
+const DYN_ICONS = ['📌','📝','🎬','🏄','⚖️','🗳️','🔐','👤','🎯','📱','💳','🐛','✨','🔧','🌊','📋'];
 
 const MeetingDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -54,6 +54,13 @@ const MeetingDetail: React.FC = () => {
   const handleAddItem = async (secIdx: number, text: string) => {
     const updated = { ...meeting };
     updated.sections[secIdx].items.push({ dev: false, tested: false, text });
+    const result = await updateMeeting(meeting._id, { sections: updated.sections });
+    setMeeting(result);
+  };
+
+  const handleUpdateItemText = async (secIdx: number, itemIdx: number, text: string) => {
+    const updated = { ...meeting };
+    updated.sections[secIdx].items[itemIdx].text = text;
     const result = await updateMeeting(meeting._id, { sections: updated.sections });
     setMeeting(result);
   };
@@ -237,6 +244,7 @@ const MeetingDetail: React.FC = () => {
             onDeleteSection={handleDeleteSection}
             onDeleteItem={handleDeleteItem}
             onAddItem={handleAddItem}
+            onUpdateItemText={handleUpdateItemText}
           />
         ))}
 

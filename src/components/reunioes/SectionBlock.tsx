@@ -9,10 +9,11 @@ interface SectionBlockProps {
   onDeleteSection: (secIdx: number) => void;
   onDeleteItem: (secIdx: number, itemIdx: number) => void;
   onAddItem: (secIdx: number, text: string) => void;
+  onUpdateItemText: (secIdx: number, itemIdx: number, text: string) => void;
 }
 
 const SectionBlock: React.FC<SectionBlockProps> = ({
-  section, secIdx, onToggleField, onDeleteSection, onDeleteItem, onAddItem,
+  section, secIdx, onToggleField, onDeleteSection, onDeleteItem, onAddItem, onUpdateItemText,
 }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [newItemText, setNewItemText] = useState('');
@@ -98,6 +99,7 @@ const SectionBlock: React.FC<SectionBlockProps> = ({
               onToggleDev={() => onToggleField(secIdx, itemIdx, 'dev')}
               onToggleTested={() => onToggleField(secIdx, itemIdx, 'tested')}
               onDelete={() => onDeleteItem(secIdx, itemIdx)}
+              onUpdateText={(text) => onUpdateItemText(secIdx, itemIdx, text)}
             />
           ))}
           <div style={{

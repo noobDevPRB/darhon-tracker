@@ -6,11 +6,13 @@ interface TaskItemProps {
   onToggleDev: () => void;
   onToggleTested: () => void;
   onDelete: () => void;
+  onUpdateText: (text: string) => void;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ item, onToggleDev, onToggleTested, onDelete }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ item, onToggleDev, onToggleTested, onDelete, onUpdateText }) => {
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const isComplete = item.dev && item.tested;
+  const [editing, setEditing] = useState(false);
+  const [editText, setEditText] = useState(item.text);
 
   return (
     <div style={{ borderTop: '1px solid #30363d' }}>
@@ -55,27 +57,73 @@ const TaskItem: React.FC<TaskItemProps> = ({ item, onToggleDev, onToggleTested, 
           >T</div>
         </div>
 
-        <span
-          style={{
-            flex: 1,
-            textDecoration: isComplete ? 'line-through' : 'none',
-            color: isComplete ? '#484f58' : '#f0f6fc',
-            cursor: item.details ? 'pointer' : 'default',
-          }}
-          onClick={() => item.details && setDetailsOpen(!detailsOpen)}
-        >
-          {item.text}
-          {item.details && (
-            <span style={{
-              display: 'inline-block',
-              fontSize: 9,
-              marginLeft: 5,
-              color: '#484f58',
-              transform: detailsOpen ? 'rotate(90deg)' : 'none',
-              transition: 'transform .2s',
-            }}>&#9658;</span>
-          )}
-        </span>
+        {editing ? (
+          <input
+            autoFocus
+            value={editText}
+            onChange={e => setEditText(e.target.value)}
+            onBlur={() => {
+              if (editText.trim() && editText !== item.text) {
+                onUpdateText(editText.trim());
+              }
+              setEditing(false);
+            }}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                if (editText.trim() && editText !== item.text) {
+                  onUpdateText(editText.trim());
+                }
+                setEditing(false);
+              }
+              if (e.key === 'Escape') {
+                setEditText(item.text);
+                setEditing(false);
+              }
+            }}
+            style={{
+              flex: 1,
+              background: '#0d1117',
+              border: '1px solid #58a6ff',
+              borderRadius: 6,
+              color: '#f0f6fc',
+              padding: '6px 10px',
+              fontSize: 15,
+              outline: 'none',
+            }}
+          />
+        ) : (
+          <span
+            style={{
+              flex: 1,
+              color: '#f0f6fc',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              if (item.details) {
+                setDetailsOpen(!detailsOpen);
+              } else {
+                setEditText(item.text);
+                setEditing(true);
+              }
+            }}
+            onDoubleClick={() => {
+              setEditText(item.text);
+              setEditing(true);
+            }}
+          >
+            {item.text}
+            {item.details && (
+              <span style={{
+                display: 'inline-block',
+                fontSize: 9,
+                marginLeft: 5,
+                color: '#484f58',
+                transform: detailsOpen ? 'rotate(90deg)' : 'none',
+                transition: 'transform .2s',
+              }}>&#9658;</span>
+            )}
+          </span>
+        )}
 
         <button
           onClick={onDelete}
