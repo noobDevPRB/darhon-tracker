@@ -82,6 +82,46 @@ const MeetingDetail: React.FC = () => {
     }
   };
 
+  const [copied, setCopied] = useState(false);
+
+  const generateMarkdown = () => {
+    let md = `# ${meeting.title} — ${meeting.date}\n\n`;
+
+    for (const section of meeting.sections) {
+      md += `## ${section.icon} ${section.title}\n\n`;
+      for (const item of section.items) {
+        const check = item.tested ? 'x' : ' ';
+        const devTag = item.dev ? ' `[DEV]`' : '';
+        md += `- [${check}]${devTag} ${item.text}\n`;
+        if (item.details) {
+          for (const d of item.details) {
+            md += `  - \`${d.label}\` — ${d.desc}\n`;
+          }
+        }
+      }
+      md += '\n';
+    }
+
+    return md.trimEnd();
+  };
+
+  const handleCopyMd = async () => {
+    const md = generateMarkdown();
+    try {
+      await navigator.clipboard.writeText(md);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = md;
+      ta.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   // Global progress
   const allItems = meeting.sections.flatMap(s => s.items);
   const gDev = allItems.filter(i => i.dev).length;
@@ -152,6 +192,22 @@ const MeetingDetail: React.FC = () => {
             <span style={{ display: 'inline-block', width: 14, height: 14, borderRadius: 4, background: '#58a6ff', verticalAlign: 'middle' }}></span> Desenvolvido
             <span style={{ display: 'inline-block', width: 14, height: 14, borderRadius: 4, background: '#39d353', verticalAlign: 'middle', marginLeft: 12 }}></span> Testado
           </span>
+          <button
+            onClick={handleCopyMd}
+            style={{
+              background: copied ? 'rgba(57,211,83,.15)' : '#21262d',
+              border: `1px solid ${copied ? '#39d353' : '#30363d'}`,
+              borderRadius: 8,
+              color: copied ? '#39d353' : '#8b949e',
+              fontSize: 14,
+              fontWeight: 600,
+              padding: '10px 20px',
+              cursor: 'pointer',
+              transition: 'all .15s',
+            }}
+          >
+            {copied ? '✓ Copiado!' : '📋 Copiar MD'}
+          </button>
           <button
             onClick={handleFinalizar}
             disabled={finalizing}
