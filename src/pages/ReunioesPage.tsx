@@ -11,6 +11,12 @@ const ReunioesPage: React.FC = () => {
   const load = async () => {
     try {
       const data = await getMeetings();
+      // Sort by date (dd/mm) descending — most recent first
+      data.sort((a, b) => {
+        const [da, ma] = a.date.split('/').map(Number);
+        const [db, mb] = b.date.split('/').map(Number);
+        return mb !== ma ? mb - ma : db - da;
+      });
       setMeetings(data);
     } finally {
       setLoading(false);

@@ -105,7 +105,7 @@ export function deleteItem(meetingId: string, secIdx: number, itemIdx: number) {
 }
 
 export function finalizarRevisao(meetingId: string) {
-  return request<{ message: string; original: Meeting; newMeeting: Meeting | null }>(
+  return request<{ message: string; original: Meeting; targetMeeting: Meeting | null }>(
     `/reunioes/${meetingId}/finalizar`,
     { method: 'POST' }
   );

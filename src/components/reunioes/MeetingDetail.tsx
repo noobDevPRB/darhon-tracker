@@ -72,8 +72,8 @@ const MeetingDetail: React.FC = () => {
     setFinalizing(true);
     try {
       const result = await finalizarRevisao(meeting._id);
-      if (result.newMeeting) {
-        navigate(`/reunioes/${result.newMeeting._id}`);
+      if (result.targetMeeting) {
+        navigate(`/reunioes/${result.targetMeeting._id}`);
       } else {
         setMeeting(result.original);
       }
