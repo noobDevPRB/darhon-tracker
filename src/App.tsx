@@ -1,29 +1,32 @@
-import React, { useState } from 'react'
-import Header from './components/Header'
-import Calendar from './components/Calendar'
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import DarhonPage from './pages/DarhonPage';
+import ReunioesPage from './pages/ReunioesPage';
+import MeetingDetail from './components/reunioes/MeetingDetail';
+
+const PrivateRoute: React.FC<{ children: React.ReactNode; permission?: string }> = ({ children, permission }) => {
+  const { isAuthenticated, user } = useAuth();
+
+  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (permission && !user?.permissions.includes(permission)) return <Navigate to="/" />;
+
+  return <>{children}</>;
+};
 
 const App = () => {
-  const today = new Date()
-  const [currentDate, setCurrentDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1))
-
-  const goToPreviousMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))
-  }
-
-  const goToNextMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))
-  }
-
   return (
-    <div>
-      <Header />
-      <Calendar
-        date={currentDate}
-        onPrev={goToPreviousMonth}
-        onNext={goToNextMonth}
-      />
-    </div>
-  )
-}
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
+      <Route path="/darhon" element={<PrivateRoute permission="darhon"><DarhonPage /></PrivateRoute>} />
+      <Route path="/reunioes" element={<PrivateRoute permission="reunioes"><ReunioesPage /></PrivateRoute>} />
+      <Route path="/reunioes/:id" element={<PrivateRoute permission="reunioes"><MeetingDetail /></PrivateRoute>} />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  );
+};
 
-export default App
+export default App;
