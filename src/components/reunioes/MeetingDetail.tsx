@@ -93,6 +93,7 @@ const MeetingDetail: React.FC = () => {
       minHeight: '100vh',
       background: '#0d1117',
       color: '#f0f6fc',
+      overflowY: 'auto',
       fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
     }}>
       {/* Navbar */}

@@ -54,6 +54,7 @@ const ReunioesPage: React.FC = () => {
       background: '#0d1117',
       color: '#f0f6fc',
       fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
+      overflowY: 'auto',
     }}>
       {/* Navbar */}
       <nav style={{
@@ -157,9 +158,10 @@ const ReunioesPage: React.FC = () => {
           </div>
         ) : (
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            display: 'flex',
             gap: 16,
+            overflowX: 'auto',
+            paddingBottom: 12,
           }}>
             {meetings.map(meeting => {
               const { total, dev, tested, pct } = getProgress(meeting);
@@ -174,6 +176,8 @@ const ReunioesPage: React.FC = () => {
                     padding: 24,
                     cursor: 'pointer',
                     transition: 'border-color .2s, transform .2s',
+                    minWidth: 300,
+                    flexShrink: 0,
                   }}
                   onMouseEnter={e => {
                     e.currentTarget.style.borderColor = '#39d353';
