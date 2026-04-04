@@ -13,6 +13,7 @@ const MeetingDetail: React.FC = () => {
   const [newSecIcon, setNewSecIcon] = useState(DYN_ICONS[0]);
   const [newSecTitle, setNewSecTitle] = useState('');
   const [finalizing, setFinalizing] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const load = async () => {
     if (!id) return;
@@ -88,8 +89,6 @@ const MeetingDetail: React.FC = () => {
       setFinalizing(false);
     }
   };
-
-  const [copied, setCopied] = useState(false);
 
   const generateMarkdown = () => {
     let md = `# ${meeting.title} — ${meeting.date}\n\n`;
