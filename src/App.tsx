@@ -8,8 +8,9 @@ import ReunioesPage from './pages/ReunioesPage';
 import MeetingDetail from './components/reunioes/MeetingDetail';
 
 const PrivateRoute: React.FC<{ children: React.ReactNode; permission?: string }> = ({ children, permission }) => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
 
+  if (loading) return null;
   if (!isAuthenticated) return <Navigate to="/login" />;
   if (permission && !user?.permissions.includes(permission)) return <Navigate to="/" />;
 
